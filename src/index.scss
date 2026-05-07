@@ -1,0 +1,23 @@
+/* Стандартный сброс отступов и современный шрифт */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Сглаживание шрифтов для macOS и других систем */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Цвет фона и основной текст */
+  background-color: #f4f4f9;
+  color: #333;
+
+  /* Чтобы body занимал минимум всю высоту экрана */
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Полезное дополнение: правильный расчет размеров элементов */
+* {
+  box-sizing: border-box;
+}
