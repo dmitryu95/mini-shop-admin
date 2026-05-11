@@ -1,6 +1,9 @@
 import styles from "@/pages/Pages.module.scss";
+import {Link} from "react-router-dom";
 
 const CatalogPage = () => {
+  const testCardId = 2;
+
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
@@ -20,6 +23,10 @@ const CatalogPage = () => {
               <li className={styles.listItem}>
                 <span className={styles.label}>Category</span>
                 <span className={styles.badge}>All items</span>
+                <Link
+                  className={styles.badge}
+                  to={`../cart/${testCardId}`}
+                >Оpen { testCardId }</Link>
               </li>
               <li className={styles.listItem}>
                 <span className={styles.label}>Price</span>

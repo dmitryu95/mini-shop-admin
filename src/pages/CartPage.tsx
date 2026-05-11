@@ -1,56 +1,62 @@
 import styles from "@/pages/Pages.module.scss";
+import {useParams} from "react-router-dom";
+import {fetchData, GET_PHOTO, GET_POST} from "@/api/products.ts";
+import {useQuery} from "@tanstack/react-query";
 
 const CartPage = () => {
+  const params = useParams()
+
+  console.log('params', params)
+
+  const id = params.id;
+
+  const postQuery = useQuery({
+    queryKey: ['post', id],
+    queryFn: () => fetchData(GET_POST, Number(id)),
+    enabled: Boolean(id),
+  })
+
+  const photoQuery = useQuery({
+    queryKey: ['photo', id],
+    queryFn: () => fetchData(GET_PHOTO, Number(id)),
+    enabled: Boolean(id),
+  })
+
+  const post = postQuery?.data?.post;
+  const photo = photoQuery?.data?.photo
+
+  if (postQuery.isLoading || photoQuery.isLoading) {
+    return <div>Загрузка ...</div>
+  }
+
+  if (postQuery.error || photoQuery.error) return <div>Error loading post</div>;
+
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
         <p className={styles.eyebrow}>Cart</p>
-        <h1 className={styles.title}>Order summary before checkout</h1>
+
+        <h1 className={styles.title}>
+          {post?.title}
+        </h1>
+
         <p className={styles.description}>
-          The cart now has a readable split between selected items and a compact summary card.
+          Post id: {post?.id}
         </p>
       </section>
 
-      <section className={styles.section}>
-        <div className={styles.gridWide}>
-          <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Items in cart</h2>
-            <ul className={styles.list}>
-              <li className={styles.listItem}>
-                <div>
-                  <strong>Minimal Sneakers</strong>
-                  <p className={styles.cardText}>Size 42, neutral colorway</p>
-                </div>
-                <span className={styles.badge}>1 x $94</span>
-              </li>
-              <li className={styles.listItem}>
-                <div>
-                  <strong>Travel Bottle</strong>
-                  <p className={styles.cardText}>Lightweight metal bottle</p>
-                </div>
-                <span className={styles.badge}>2 x $18</span>
-              </li>
-            </ul>
-          </div>
+      <section className={styles.hero}>
+        <p className={styles.eyebrow}>Photo</p>
 
-          <aside className={`${styles.card} ${styles.cardAccent}`}>
-            <h2 className={styles.cardTitle}>Summary</h2>
-            <ul className={styles.list}>
-              <li className={styles.listItem}>
-                <span>Subtotal</span>
-                <strong>$130</strong>
-              </li>
-              <li className={styles.listItem}>
-                <span>Delivery</span>
-                <strong>$12</strong>
-              </li>
-              <li className={styles.listItem}>
-                <span>Total</span>
-                <strong>$142</strong>
-              </li>
-            </ul>
-          </aside>
-        </div>
+        <h1 className={styles.title}>
+          {photo?.title}
+        </h1>
+
+        <p className={styles.description}>
+          Post id: {photo?.id}
+        </p>
+
+        <img src={photo.url} alt="photo"/>
       </section>
     </main>
   );
