@@ -1,4 +1,5 @@
 import styles from "@/pages/Pages.module.scss";
+import ChildrenSections from "@/components/UI/ChildrenSections.tsx";
 
 const HomePage = () => {
   return (
@@ -10,11 +11,13 @@ const HomePage = () => {
           This page is still static, but now it already looks like a real shop landing:
           a clear intro, quick highlights, and room for categories or promotions.
         </p>
-        <div className={styles.heroMeta}>
-          <span className={styles.pill}>Fast delivery</span>
-          <span className={styles.pill}>Season picks</span>
-          <span className={styles.pill}>Simple admin flow</span>
-        </div>
+        <ChildrenSections>
+          <div className={styles.heroMeta}>
+            <span className={styles.pill}>Fast delivery</span>
+            <span className={styles.pill}>Season picks</span>
+            <span className={styles.pill}>Simple admin flow</span>
+          </div>
+        </ChildrenSections>
       </section>
 
       <section className={styles.section}>
