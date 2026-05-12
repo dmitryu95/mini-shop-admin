@@ -1,4 +1,3 @@
-import hero from '@/assets/hero.png';
 import search from '@/assets/search-button.svg';
 import profile from '@/assets/profile-user-account.svg';
 import shopping from '@/assets/shopping.svg';
@@ -6,13 +5,25 @@ import { Link } from "react-router-dom";
 import { useHeader } from "@/hooks/useHeader.ts";
 import SearchBar from "@/components/Header/SearchBar.tsx";
 import styles from '@/components/Header/Header.module.scss';
+import {useState} from "react";
 
-const MainHeader =  () => {
+const MainHeader =  (props: any) => {
   const { isVisible, toggleSearch } = useHeader();
+  const [isOpened, setIsOpened] = useState(false);
 
-  return (
+  const openDropDown = () => {
+    const currentStatus = !isOpened
+
+    setIsOpened(currentStatus);
+
+    props.onShow(currentStatus);
+  }
+
+  if (!props.logo) return null;
+
+  return (props.logo &&
     <header className={styles.header}>
-      <img className={styles.header_logo} src={hero} alt="logo"/>
+      <img className={styles.header_logo} src={props.logo} alt="logo"/>
       <nav className={styles.header_nav}>
         <Link to="/catalog" >Каталог</Link>
         <Link to="/checkout">Корзина</Link>
@@ -23,9 +34,9 @@ const MainHeader =  () => {
         <button className={styles.search_btn} onClick={toggleSearch}>
           <img className={styles.header_img} src={search} alt="search-button"/>
         </button>
-        <Link to="/">
+        <button className={styles.search_btn} onClick={openDropDown}>
           <img className={styles.header_img} src={profile} alt="profile"/>
-        </Link>
+        </button>
         <Link to="/">
           <img className={styles.header_img} src={shopping} alt="shopping"/>
         </Link>

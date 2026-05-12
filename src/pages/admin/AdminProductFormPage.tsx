@@ -14,7 +14,7 @@ const AdminProductFormPage = () => {
     body: '',
   });
 
-  const [createdPostId, setCreatedPostId] = useState<string>(null)
+  const [createdPostId, setCreatedPostId] = useState<string>('')
 
   const handleChangePost = (field: keyof Post, value: string) => {
     setPost((prev) => ({
@@ -36,9 +36,7 @@ const AdminProductFormPage = () => {
 
   const createPostMutation = useMutation({
     mutationFn: async () => {
-      const data = await createData(ADD_POST, post.title, post.body);
-
-      return data;
+      return await createData(ADD_POST, post.title, post.body);
     },
     onSuccess: (data) => {
       console.log('Success request', data.createPost)
