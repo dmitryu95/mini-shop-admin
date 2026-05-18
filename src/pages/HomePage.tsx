@@ -1,7 +1,44 @@
 import styles from "@/pages/Pages.module.scss";
 import ChildrenSections from "@/components/UI/ChildrenSections.tsx";
+import {useMemo, useRef, useState} from "react";
 
 const HomePage = () => {
+  const count = useRef(0)
+  const [simpleCount, setSimpleCount] = useState(0);
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  const focusInput = () => {
+    inputRef.current?.focus()
+  }
+
+  const handleRefClick = () => {
+    console.log('handleRefClick')
+    count.current++
+
+    setInterval(() => {
+      count.current++
+      console.log(' count.',  count.current)
+    }, 1000)
+  }
+
+  const handleSimpleClick = (value: number) => {
+    const currentCount = value + 1
+    setSimpleCount(currentCount)
+    console.log('handleSimpleClick', currentCount)
+  }
+
+  const [counter, setCounter] = useState(0)
+
+  const randomNumber = Math.random(); // будет изменяться
+  // const randomNumber = useMemo(() => {
+  //   return Math.random()
+  // }, [])
+
+  const handleClick = () => {
+    console.log('click')
+  }
+
+  console.log(handleClick)
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
@@ -9,46 +46,13 @@ const HomePage = () => {
         <h1 className={styles.title}>Small storefront with a cleaner first screen</h1>
         <p className={styles.description}>
           This page is still static, but now it already looks like a real shop landing:
-          a clear intro, quick highlights, and room for categories or promotions.
         </p>
         <ChildrenSections>
           <div className={styles.heroMeta}>
             <span className={styles.pill}>Fast delivery</span>
             <span className={styles.pill}>Season picks</span>
-            <span className={styles.pill}>Simple admin flow</span>
           </div>
         </ChildrenSections>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <div>
-            <h2 className={styles.sectionTitle}>What can live here</h2>
-            <p className={styles.sectionText}>
-              A small set of cards already gives the homepage more structure.
-            </p>
-          </div>
-        </div>
-        <div className={styles.grid}>
-          <article className={`${styles.card} ${styles.cardAccent}`}>
-            <h3 className={styles.cardTitle}>Featured collection</h3>
-            <p className={styles.cardText}>
-              Use this block for a seasonal drop, a bestseller section, or a promo banner.
-            </p>
-          </article>
-          <article className={styles.card}>
-            <h3 className={styles.cardTitle}>Popular categories</h3>
-            <p className={styles.cardText}>
-              Sneakers, accessories, and everyday essentials can sit here as quick entry points.
-            </p>
-          </article>
-          <article className={styles.card}>
-            <h3 className={styles.cardTitle}>Store benefits</h3>
-            <p className={styles.cardText}>
-              Add returns, support, or loyalty messaging without overloading the layout.
-            </p>
-          </article>
-        </div>
       </section>
 
       <section className={styles.section}>
@@ -67,6 +71,26 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+      <button onClick={handleRefClick}>
+        Test ref click btn
+      </button>
+      <span>
+        ref count: {count.current}
+      </span>
+      <button onClick={() => handleSimpleClick(simpleCount)}>
+        Test simple click btn
+      </button>
+      <span>
+        simple simpleCount: {simpleCount}
+      </span>
+      <input ref={inputRef}/>
+      <button onClick={focusInput}>Focus</button>
+
+      <button onClick={() => setCounter(counter + 1)}>
+        +
+      </button>
+      <p>{randomNumber} - randomNumber</p>
+
     </main>
   );
 };
